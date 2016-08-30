@@ -65,7 +65,7 @@ public final class QueryUtils {
                 // Extract the magnitude, location and time from the earthquake
                 String mag = String.valueOf(properties.optDouble("mag"));
                 String location = properties.optString("place");
-                String time = String.valueOf(properties.optLong("time"));
+                long time = properties.optLong("time");
 
                 // Add our new earthquake to the list
                 earthquakes.add(new Earthquake(mag, location, time));

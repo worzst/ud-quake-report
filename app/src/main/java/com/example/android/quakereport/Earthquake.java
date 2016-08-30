@@ -16,18 +16,18 @@ public class Earthquake {
     private String mLocation;
 
     /** The date when the earthquake happened */
-    private String mDate;
+    private long mTimeInMilliseconds;
 
     /**
      * Constructor to create an earthquake object
-     * @param magnitude is the magnitude of the earthquake
-     * @param location  is the location of the earthquake
-     * @param date      is the date of when the earthquake happened
+     * @param magnitude             is the magnitude of the earthquake
+     * @param location              is the location of the earthquake
+     * @param timeInMilliseconds    is the time of when the earthquake happened
      */
-    public Earthquake (String magnitude, String location, String date) {
+    public Earthquake (String magnitude, String location, long timeInMilliseconds) {
         mMagnitude = magnitude;
         mLocation = location;
-        mDate = date;
+        mTimeInMilliseconds = timeInMilliseconds;
     }
 
     /**
@@ -45,9 +45,9 @@ public class Earthquake {
     }
 
     /**
-     * @return the date of the earthquake
+     * @return the time of the earthquake
      */
-    public String getDate() {
-        return mDate;
+    public long getTimeInMilliseconds() {
+        return mTimeInMilliseconds;
     }
 }
