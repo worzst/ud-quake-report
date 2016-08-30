@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 public class Earthquake {
 
     /** The magnitude of the earthquake */
-    private String mMagnitude;
+    private double mMagnitude;
 
     /** String of the location where the earthquake happened */
     private String mLocation;
@@ -24,7 +24,7 @@ public class Earthquake {
      * @param location              is the location of the earthquake
      * @param timeInMilliseconds    is the time of when the earthquake happened
      */
-    public Earthquake (String magnitude, String location, long timeInMilliseconds) {
+    public Earthquake (double magnitude, String location, long timeInMilliseconds) {
         mMagnitude = magnitude;
         mLocation = location;
         mTimeInMilliseconds = timeInMilliseconds;
@@ -33,7 +33,7 @@ public class Earthquake {
     /**
      * @return the magnitude of the earthquake
      */
-    public String getMagnitude() {
+    public double getMagnitude() {
         return mMagnitude;
     }
 

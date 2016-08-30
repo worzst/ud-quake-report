@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,8 @@ import java.util.Locale;
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
     private static final String LOG_TAG = EarthquakeAdapter.class.getSimpleName();
+
+    private static final String LOCATION_SEPARATOR = " of ";
 
     /**
      * Custom constructer for the {@link EarthquakeAdapter}
@@ -51,28 +54,32 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
         // Find the TextViews for the magnitude, location, date and time
         TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude);
-        TextView locationTextView = (TextView) listItemView.findViewById(R.id.location);
+        TextView locationOffsetTextView = (TextView) listItemView.findViewById(R.id.location_offset);
+        TextView primaryLocationTextView = (TextView) listItemView.findViewById(R.id.primary_location);
         TextView dateTextView = (TextView) listItemView.findViewById(R.id.date);
         TextView timeTextView = (TextView) listItemView.findViewById(R.id.time);
 
-        // Set the text for the magnitude
-        magnitudeTextView.setText(currentEarthquake.getMagnitude());
+        // Format the magnitude and set the text
+        magnitudeTextView.setText(formatMagnitude(currentEarthquake.getMagnitude()));
 
-        // Set the text for the location
-        locationTextView.setText(currentEarthquake.getLocation());
+        // Split the location string into locationOffset and primaryLocation
+        String[] loc = splitLocationString(currentEarthquake.getLocation());
+        // Set the text for the location views
+        locationOffsetTextView.setText(loc[0]);
+        primaryLocationTextView.setText(loc[1]);
 
         // Create a Date object from the time
         Date date = new Date(currentEarthquake.getTimeInMilliseconds());
 
         // Format the date
-        String dateToDisplay = formatDate(date);
+        String formattedDate = formatDate(date);
         // Set the text for the date
-        dateTextView.setText(dateToDisplay);
+        dateTextView.setText(formattedDate);
 
         // Format the time
-        String timeToDisplay = formatTime(date);
+        String formattedTime = formatTime(date);
         // Set the text for the date
-        timeTextView.setText(timeToDisplay);
+        timeTextView.setText(formattedTime);
 
         return listItemView;
     }
@@ -91,5 +98,30 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
     private String formatTime(Date dateObject) {
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.getDefault());
         return timeFormat.format(dateObject);
+    }
+
+    /**
+     * Return the formatted magnitude as string (i.e. "4.6") from a double magnitude value
+     */
+    private String formatMagnitude(double magnitude) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.0");
+        return decimalFormat.format(magnitude);
+    }
+
+    /**
+     * @param location is the complete location string
+     * @return an array of 2 strings, where index 0 is the locationOffset and index 1 is the primaryLocation
+     */
+    private String[] splitLocationString(String location) {
+        String[] locationParts = new String[2];
+        if (location.contains(LOCATION_SEPARATOR)) {
+            int index = location.indexOf(LOCATION_SEPARATOR) + 4;
+            locationParts[0] = location.substring(0, index);
+            locationParts[1] = location.substring(index);
+        } else {
+            locationParts[0] = getContext().getString(R.string.near_the);
+            locationParts[1] = location;
+        }
+        return locationParts;
     }
 }
