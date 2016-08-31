@@ -100,6 +100,7 @@ public final class QueryUtils {
     }
 
     public static List<Earthquake> fetchEarthquakes(String stringUrl) {
+
         URL url = createURL(stringUrl);
 
         String jsonResponse = makeHttpRequest(url);
